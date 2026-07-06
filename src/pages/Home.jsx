@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api/api";
+import { Link } from "react-router-dom";
 
 function Home() {
 
@@ -55,29 +56,43 @@ function Home() {
 
                         <th>State</th>
 
+                        <th>Action</th>
+
                     </tr>
 
                 </thead>
 
                 <tbody>
 
-                    {contacts.map((contact) => (
+{
+contacts.map((contact)=>(
 
-                        <tr key={contact.id}>
+<tr key={contact.id}>
 
-                            <td>{contact.id}</td>
+<td>{contact.id}</td>
 
-                            <td>{contact.name}</td>
+<td>{contact.name}</td>
 
-                            <td>{contact.city}</td>
+<td>{contact.city}</td>
 
-                            <td>{contact.state}</td>
+<td>{contact.state}</td>
 
-                        </tr>
+<td>
 
-                    ))}
+<Link to={`/edit/${contact.id}`}>
 
-                </tbody>
+<button>Edit</button>
+
+</Link>
+
+</td>
+
+</tr>
+
+))
+}
+
+</tbody>
 
             </table>
 
