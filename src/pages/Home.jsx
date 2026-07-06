@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import api from "../api/api";
-import { Link } from "react-router-dom";
 
 function Home() {
 
@@ -20,6 +19,32 @@ function Home() {
             const response = await api.get("/");
 
             setContacts(response.data);
+
+        } catch (error) {
+
+            console.log(error);
+
+        }
+
+    }
+
+    async function deleteContact(id) {
+
+        const confirmDelete = window.confirm(
+            "Are you sure you want to delete this contact?"
+        );
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        try {
+
+            await api.delete(`/${id}`);
+
+            alert("Contact Deleted Successfully");
+
+            loadContacts();
 
         } catch (error) {
 
@@ -64,35 +89,38 @@ function Home() {
 
                 <tbody>
 
-{
-contacts.map((contact)=>(
+                    {contacts.map((contact) => (
 
-<tr key={contact.id}>
+                        <tr key={contact.id}>
 
-<td>{contact.id}</td>
+                            <td>{contact.id}</td>
 
-<td>{contact.name}</td>
+                            <td>{contact.name}</td>
 
-<td>{contact.city}</td>
+                            <td>{contact.city}</td>
 
-<td>{contact.state}</td>
+                            <td>{contact.state}</td>
 
-<td>
+                            <td>
 
-<Link to={`/edit/${contact.id}`}>
+                                <Link to={`/edit/${contact.id}`}>
+                                    <button>Edit</button>
+                                </Link>
 
-<button>Edit</button>
+                                <button
+                                    onClick={() => deleteContact(contact.id)}
+                                    style={{ marginLeft: "10px" }}
+                                >
+                                    Delete
+                                </button>
 
-</Link>
+                            </td>
 
-</td>
+                        </tr>
 
-</tr>
+                    ))}
 
-))
-}
-
-</tbody>
+                </tbody>
 
             </table>
 
